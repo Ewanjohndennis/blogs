@@ -1,0 +1,161 @@
+---
+import { getCollection } from "astro:content";
+import BlogLayout from "../../layouts/BlogLayout.astro";
+
+export async function getStaticPaths() {
+  const categories = ["case-study", "hackathon", "internship", "essay"];
+  
+  return categories.map((cat) => ({
+    params: { category: cat },
+  }));
+}
+
+const { category } = Astro.params;
+
+const posts = (await getCollection("posts", ({ data }) => {
+  const isNotDraft = import.meta.env.PROD ? data.draft !== true : true;
+  return isNotDraft && data.type === category;
+})).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const categoryLabels: Record<string, string> = {
+  "case-study": "Project Case Studies",
+  "hackathon": "Hackathon Projects",
+  "internship": "Internship Experience",
+  "essay": "Essays & Engineering Notes",
+};
+---
+
+<BlogLayout 
+  title={`${categoryLabels[category]} — Ewan John Dennis`} 
+  path={`~/posts/${category}`} 
+  activeCategory={category}
+>
+  <section class="intro-section">
+    <h1>{categoryLabels[category]}</h1>
+    <p class="subtitle">Filtered technical posts under {categoryLabels[category].toLowerCase()}.</p>
+  </section>
+
+  <div class="section-divider">
+    <span class="section-title">POSTS ({posts.length})</span>
+  </div>
+
+  <div class="posts-grid">
+    {posts.length === 0 ? (
+      <div class="empty-state">No published posts found in {categoryLabels[category]}.</div>
+    ) : (
+      posts.map((post) => (
+        <article class="post-card">
+          <div class="card-meta">
+            <span class="badge">{post.data.type}</span>
+            <time datetime={post.data.date.toISOString()}>
+              {post.data.date.toLocaleDateString("en-US", {
+                day: "2-digit",
+                month: "short",
+                year: "numeric",
+              })}
+            </time>
+          </div>
+
+          <h2>
+            <a href={`/posts/${post.slug}`}>{post.data.title}</a>
+          </h2>
+
+          <p class="summary">{post.data.summary}</p>
+
+          <div class="tags">
+            {post.data.tags.map((tag) => (
+              <span class="tag">[{tag}]</span>
+            ))}
+          </div>
+        </article>
+      ))
+    )}
+  </div>
+</BlogLayout>
+
+<style>
+  .intro-section { margin-bottom: 2rem; }
+  .intro-section h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--foreground);
+    margin-bottom: 0.5rem;
+  }
+  .subtitle {
+    color: var(--muted-2);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    max-width: 640px;
+  }
+  .section-divider {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.25rem;
+  }
+  .section-title {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--muted-1);
+  }
+  .posts-grid { display: flex; flex-direction: column; gap: 1rem; }
+  .empty-state {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: var(--muted-1);
+    padding: 2rem 0;
+  }
+  .post-card {
+    background-color: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.25rem 1.5rem;
+    transition: border-color 0.15s ease;
+  }
+  .post-card:hover { border-color: var(--line-strong); }
+  .card-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted-1);
+    margin-bottom: 0.6rem;
+  }
+  .badge {
+    text-transform: uppercase;
+    color: var(--foreground);
+    background-color: var(--line);
+    border: 1px solid var(--border);
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-size: 10px;
+  }
+  .post-card h2 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.5rem;
+  }
+  .post-card h2 a {
+    color: var(--foreground);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+  .post-card h2 a:hover { color: var(--ink); text-decoration: underline; }
+  .summary {
+    color: var(--muted-2);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 0.85rem;
+  }
+  .tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted-1);
+  }
+</style>

@@ -1,0 +1,228 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+
+:root {
+  --ink: #f0eee8;
+  --panel: #0c0c0c;
+  --line: #222222;
+  --line-strong: #2e2e2e;
+  --muted-1: #555555;
+  --muted-2: #888888;
+  --code-gutter: #2a2a2a;
+  --code-body: #444444;
+  --background: #000000;
+  --foreground: #f0eee8;
+  --card: #0c0c0c;
+  --border: #222222;
+  --input: #2e2e2e;
+
+  --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Space Mono", ui-monospace, monospace;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Chrome Elements */
+#topbar {
+  height: 40px;
+  background-color: var(--background);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  gap: 0.75rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  width: 100%;
+}
+
+.dots { display: flex; gap: 6px; flex-shrink: 0; }
+.dot { width: 10px; height: 10px; border-radius: 50%; background-color: var(--line-strong); }
+
+.path-title {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.portfolio-btn {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted-2);
+  text-decoration: none;
+  border: 1px solid var(--border);
+  background-color: var(--card);
+  padding: 2px 8px;
+  border-radius: 4px;
+  flex-shrink: 0;
+  transition: all 0.15s ease;
+}
+
+.portfolio-btn:hover {
+  color: var(--foreground);
+  border-color: var(--line-strong);
+}
+
+/* Base Statusbar Chrome */
+#statusbar {
+  height: 24px;
+  background-color: var(--background);
+  border-top: 1px solid var(--border);
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--muted-1);
+  z-index: 50;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  width: 100%;
+}
+
+/* Article Body Typography & Proper List Indentation */
+.prose {
+  color: #d4d4d8;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.75;
+  width: 100%;
+  max-width: 100%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.prose h1, .prose h2, .prose h3 {
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  word-wrap: break-word;
+}
+
+.prose h1 { font-size: 1.75rem; }
+.prose h2 { 
+  font-size: 1.25rem; 
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.4rem;
+}
+
+.prose p {
+  margin-bottom: 1.25rem;
+}
+
+/* Fixed List Indentation */
+.prose ul, .prose ol {
+  padding-left: 1.6rem !important;
+  margin-top: 0.5rem;
+  margin-bottom: 1.25rem;
+  list-style-position: outside;
+}
+
+.prose ul {
+  list-style-type: disc;
+}
+
+.prose ol {
+  list-style-type: decimal;
+}
+
+.prose li {
+  margin-bottom: 0.5rem;
+  padding-left: 0.25rem;
+}
+
+.prose li > ul, .prose li > ol {
+  margin-top: 0.35rem;
+  margin-bottom: 0.35rem;
+  padding-left: 1.25rem !important;
+}
+
+.prose img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  margin: 1.25rem 0;
+}
+
+.prose code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  background-color: var(--card);
+  color: var(--ink);
+  padding: 0.15rem 0.35rem;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  word-break: break-word;
+}
+
+.prose pre {
+  background-color: var(--panel) !important;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.85rem 1rem;
+  margin: 1.25rem 0;
+  overflow-x: auto;
+  max-width: 100%;
+  -webkit-overflow-scrolling: touch;
+}
+
+.prose pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--foreground);
+  white-space: pre;
+  word-break: normal;
+  word-wrap: normal;
+}
+
+.prose table {
+  width: 100%;
+  display: block;
+  overflow-x: auto;
+  border-collapse: collapse;
+  margin: 1.25rem 0;
+}
+
+.prose blockquote {
+  border-left: 2px solid var(--foreground);
+  padding-left: 0.85rem;
+  margin: 1.25rem 0;
+  color: var(--muted-2);
+  font-style: italic;
+}
+
+@media (max-width: 640px) {
+  .prose h1 { font-size: 1.4rem; }
+  .prose h2 { font-size: 1.15rem; }
+  .prose { font-size: 0.95rem; line-height: 1.65; }
+}

@@ -1,0 +1,291 @@
+---
+import "../styles/global.css";
+
+export interface Props {
+  title: string;
+  description?: string;
+  path?: string;
+  activeCategory?: string;
+}
+
+const { 
+  title, 
+  description = "Ewan John Dennis — technical writing & engineering notes.", 
+  path = "~/posts",
+  activeCategory = "all"
+} = Astro.props;
+
+const categories = [
+  { id: "all", label: "all-posts.md", path: "/" },
+  { id: "case-study", label: "case-studies.md", path: "/category/case-study" },
+  { id: "hackathon", label: "hackathons.md", path: "/category/hackathon" },
+  { id: "internship", label: "internships.md", path: "/category/internship" },
+  { id: "essay", label: "essays.md", path: "/category/essay" },
+];
+
+const currentFileName = activeCategory === "all" ? "index.md" : `${activeCategory}s.md`;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <link rel="canonical" href={canonicalURL} />
+
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+</head>
+<body>
+  <div class="layout-wrapper">
+    <!-- Main Topbar -->
+    <header id="topbar">
+      <div class="dots">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+      <span class="path-title">ewan@blog {path}</span>
+      <a href="https://ewanjohndennis.vercel.app" target="_blank" rel="noreferrer" class="portfolio-btn">portfolio ↗</a>
+    </header>
+
+    <div class="main-container">
+      <aside class="sidebar">
+        <div class="sidebar-title">EXPLORER</div>
+        <nav class="file-tree">
+          {categories.map((cat) => (
+            <a 
+              href={cat.path} 
+              class={`file-item ${activeCategory === cat.id ? "active" : ""}`}
+            >
+              <span class="file-icon">📄</span> {cat.label}
+            </a>
+          ))}
+          <a href="https://ewanjohndennis.vercel.app" target="_blank" class="file-item portfolio-nav">
+            <span class="file-icon">↗</span> portfolio.md
+          </a>
+        </nav>
+      </aside>
+
+      <main class="content-canvas">
+        <!-- Sub-header File Bar -->
+        <div class="file-header-bar">
+          <span class="file-name">{currentFileName}</span>
+          <button id="mobile-menu-toggle" class="mobile-menu-btn" aria-label="Toggle Menu">
+            ☰
+          </button>
+        </div>
+
+        <!-- Mobile Nav Drawer Overlay -->
+        <div id="mobile-nav-drawer" class="mobile-drawer">
+          <div class="drawer-header">EXPLORER</div>
+          {categories.map((cat) => (
+            <a 
+              href={cat.path} 
+              class={`drawer-item ${activeCategory === cat.id ? "active" : ""}`}
+            >
+              <span>📁</span> {cat.label}
+            </a>
+          ))}
+        </div>
+
+        <slot />
+      </main>
+    </div>
+
+    <footer id="statusbar">
+      <span>UTF-8</span>
+      <span class="status-hide-mobile" style="margin-left: 1rem;">MARKDOWN</span>
+      <span style="margin-left: auto;">ewan john dennis</span>
+    </footer>
+  </div>
+
+  <script>
+    const toggleBtn = document.getElementById("mobile-menu-toggle");
+    const drawer = document.getElementById("mobile-nav-drawer");
+
+    function closeDrawer() {
+      drawer?.classList.remove("open");
+    }
+
+    toggleBtn?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      drawer?.classList.toggle("open");
+    });
+
+    document.addEventListener("click", (e) => {
+      const target = e.target as HTMLElement;
+      if (!drawer?.contains(target) && !toggleBtn?.contains(target)) {
+        closeDrawer();
+      }
+    });
+
+    window.addEventListener("scroll", () => {
+      if (drawer?.classList.contains("open")) {
+        closeDrawer();
+      }
+    }, { passive: true });
+  </script>
+</body>
+</html>
+
+<style>
+  .layout-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  .main-container {
+    display: flex;
+    flex: 1;
+    margin-top: 40px;
+    margin-bottom: 24px;
+    width: 100%;
+  }
+
+  .sidebar {
+    width: 240px;
+    background-color: var(--panel);
+    border-right: 1px solid var(--border);
+    padding: 1rem 0;
+    flex-shrink: 0;
+  }
+
+  .sidebar-title {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--muted-1);
+    padding: 0 1.25rem 0.75rem 1.25rem;
+  }
+
+  .file-tree {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .file-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 1.25rem;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--muted-2);
+    text-decoration: none;
+    transition: background-color 0.15s, color 0.15s;
+  }
+
+  .file-item:hover, .file-item.active {
+    background-color: var(--line);
+    color: var(--foreground);
+  }
+
+  .portfolio-nav {
+    margin-top: 1rem;
+    border-top: 1px solid var(--border);
+    padding-top: 0.75rem;
+  }
+
+  .file-icon {
+    font-size: 11px;
+  }
+
+  .content-canvas {
+    position: relative;
+    flex: 1;
+    width: 100%;
+    max-width: 760px;
+    padding: 1.5rem 2rem 2.5rem 2rem;
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
+
+  .file-header-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .file-name {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted-1);
+  }
+
+  .mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--muted-2);
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 0;
+    transition: color 0.15s ease;
+  }
+
+  .mobile-menu-btn:hover {
+    color: var(--foreground);
+  }
+
+  .mobile-drawer {
+    display: none;
+    flex-direction: column;
+    background-color: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    position: absolute;
+    top: 3rem;
+    right: 1rem;
+    left: 1rem;
+    z-index: 40;
+    padding: 0.5rem 0;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  }
+
+  .mobile-drawer.open {
+    display: flex;
+  }
+
+  .drawer-header {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted-1);
+    padding: 0.4rem 1rem;
+    letter-spacing: 0.08em;
+  }
+
+  .drawer-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--muted-2);
+    text-decoration: none;
+  }
+
+  .drawer-item.active {
+    background-color: var(--line);
+    color: var(--foreground);
+  }
+
+  @media (max-width: 768px) {
+    .sidebar { display: none; }
+    .mobile-menu-btn { display: block; }
+    .content-canvas { 
+      padding: 1.25rem 1rem 2rem 1rem; 
+      max-width: 100%;
+    }
+    .status-hide-mobile { display: none; }
+  }
+</style>
