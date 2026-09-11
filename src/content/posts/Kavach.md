@@ -212,18 +212,3 @@ python cli.py
 python test_decision.py
 
 ```
-
-```
-
----
-
-### Step 3: Deploy
-
-Push the file to GitHub:
-
-```bash
-git add src/content/posts/kavach-buildathon.md
-git commit -m "add kavach buildathon post"
-git push origin main
-
-```
