@@ -1,3 +1,4 @@
+export const prerender = false;
 import { ImageResponse } from '@vercel/og';
 import { getCollection } from 'astro:content';
 
