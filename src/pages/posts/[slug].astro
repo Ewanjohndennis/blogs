@@ -19,6 +19,7 @@ const { Content } = await post.render();
   description={post.data.summary}
   type={post.data.type}
   path={`~/posts/${post.slug}.md`}
+  ogImage={`/og/${post.slug}.png`}
 >
   <article class="post-wrapper">
     <!-- Back Navigation Bar -->

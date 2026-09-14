@@ -11,8 +11,8 @@
     "preview": "astro preview"
   },
   "dependencies": {
-    "@astrojs/vercel": "^7.8.2",
-    "@vercel/og": "^1.0.2",
-    "astro": "^4.11.0"
+    "astro": "^4.11.0",
+    "astro-og-canvas": "^0.6.0",
+    "canvaskit-wasm": "^0.42.0"
   }
 }

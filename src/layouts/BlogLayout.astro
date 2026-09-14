@@ -30,8 +30,7 @@ const categories = [
 const currentFileName = activeCategory === "all" ? "index.md" : `${activeCategory}s.md`;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site || "https://ewanjohndennis.vercel.app");
 
-// Dynamic OG Image Link Generation
-const generatedOgUrl = ogImage || `${canonicalURL.origin}/og.png?title=${encodeURIComponent(title)}&category=${encodeURIComponent(type)}&summary=${encodeURIComponent(description)}`;
+const generatedOgUrl = ogImage || `${canonicalURL.origin}/og/${Astro.url.pathname.replace('/posts/', '').replace(/\/$/, '') || 'index'}.png`;
 ---
 
 <!DOCTYPE html>

@@ -1,8 +1,10 @@
-import { defineConfig } from 'astro/config';
-import vercel from '@astrojs/vercel/serverless';
+import { defineConfig } from "astro/config";
 
 export default defineConfig({
-  output: 'hybrid',
-  adapter: vercel(),
   site: "https://blogs.ewanjohndennis.vercel.app",
+  markdown: {
+    shikiConfig: {
+      theme: "github-dark",
+    },
+  },
 });
