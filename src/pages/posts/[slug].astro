@@ -17,6 +17,7 @@ const { Content } = await post.render();
 <BlogLayout 
   title={`${post.data.title} — Ewan John Dennis`} 
   description={post.data.summary}
+  type={post.data.type}
   path={`~/posts/${post.slug}.md`}
 >
   <article class="post-wrapper">

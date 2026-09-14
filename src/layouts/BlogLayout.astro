@@ -6,13 +6,17 @@ export interface Props {
   description?: string;
   path?: string;
   activeCategory?: string;
+  type?: string;
+  ogImage?: string;
 }
 
 const { 
   title, 
   description = "Ewan John Dennis — technical writing & engineering notes.", 
   path = "~/posts",
-  activeCategory = "all"
+  activeCategory = "all",
+  type = "WRITING",
+  ogImage
 } = Astro.props;
 
 const categories = [
@@ -24,7 +28,10 @@ const categories = [
 ];
 
 const currentFileName = activeCategory === "all" ? "index.md" : `${activeCategory}s.md`;
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const canonicalURL = new URL(Astro.url.pathname, Astro.site || "https://ewanjohndennis.vercel.app");
+
+// Dynamic OG Image Link Generation
+const generatedOgUrl = ogImage || `${canonicalURL.origin}/og.png?title=${encodeURIComponent(title)}&category=${encodeURIComponent(type)}&summary=${encodeURIComponent(description)}`;
 ---
 
 <!DOCTYPE html>
@@ -34,9 +41,24 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
   <link rel="canonical" href={canonicalURL} />
 
+  <!-- Title & Description -->
   <title>{title}</title>
   <meta name="description" content={description} />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content={canonicalURL} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={generatedOgUrl} />
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content={canonicalURL} />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={generatedOgUrl} />
 </head>
 <body>
   <div class="layout-wrapper">
