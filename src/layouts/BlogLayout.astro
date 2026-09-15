@@ -30,7 +30,10 @@ const categories = [
 const currentFileName = activeCategory === "all" ? "index.md" : `${activeCategory}s.md`;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site || "https://ewanjohndennis.vercel.app");
 
-const generatedOgUrl = ogImage || `${canonicalURL.origin}/og/${Astro.url.pathname.replace('/posts/', '').replace(/\/$/, '') || 'index'}.png`;
+const siteUrl = "https://blogs-ewanjohndennis.vercel.app";
+const generatedOgUrl = ogImage 
+  ? `${siteUrl}${ogImage}` 
+  : `${siteUrl}/og/index.png`;
 ---
 
 <!DOCTYPE html>
