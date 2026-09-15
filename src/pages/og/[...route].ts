@@ -35,8 +35,6 @@ export const { getStaticPaths, GET } = OGImageRoute({
     logo: {
       path: './public/favicon.svg',
     },
-    bgImage: undefined,
     padding: 60,
-    slot: 'after',
-    footer: 'Ewan John Dennis · blogs.ewanjohndennis.vercel.app',
   }),
+});
