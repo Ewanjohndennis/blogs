@@ -27,10 +27,7 @@ export const { getStaticPaths, GET } = OGImageRoute({
   getImageOptions: (_, page) => ({
   title: page.title,
   description: `${page.description}\n\nEwan John Dennis · blogs-ewanjohndennis.vercel.app`,
-  bgGradient: [
-    [0, 0, 0],
-    [0, 0, 0],
-  ],
+  bgGradient: [[0, 0, 0]],
   border: { color: [255, 255, 255], width: 8, side: 'block-start' },
   font: {
     title: {
