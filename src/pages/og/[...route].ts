@@ -32,16 +32,22 @@ export const { getStaticPaths, GET } = OGImageRoute({
   font: {
     title: {
       color: [255, 255, 255],
-      size: 60,
+      size: 50,
       weight: 'Bold',
       lineHeight: 1.2,
+      families: ['JetBrains Mono'],
     },
     description: {
       color: [180, 180, 180],
       size: 26,
       lineHeight: 1.5,
+      families: ['JetBrains Mono'],
     },
   },
+  fonts: [
+      './public/fonts/JetBrainsMono-Bold.ttf',
+      './public/fonts/JetBrainsMono-Regular.ttf',
+    ],
   padding: 80,
 }),
 });
