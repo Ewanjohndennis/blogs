@@ -1,4 +1,4 @@
-# ✍️ blogs.ewanjohndennis
+# Blogs Site (blogs.ewanjohndennis)
 
 > *"Verba Volant, Scripta Manent"*  
 > *(Spoken words fly away, written words remain)*
