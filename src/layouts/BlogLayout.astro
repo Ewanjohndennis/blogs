@@ -31,11 +31,15 @@ const currentFileName = activeCategory === "all" ? "index.md" : `${activeCategor
 const canonicalURL = new URL(Astro.url.pathname, Astro.site || "https://ewanjohndennis.vercel.app");
 
 const rawPath = Astro.url.pathname.replace(/^\/|\/$/g, "");
-
-const slug = rawPath.split("/").pop() || "index";
+const cleanSlug = rawPath.split("/").pop();
+const slug = (!cleanSlug || cleanSlug === "") ? "index" : cleanSlug;
 
 const siteUrl = "https://blogs-ewanjohndennis.vercel.app";
-const generatedOgUrl = ogImage || `${siteUrl}/og/${slug}.png`;
+const generatedOgUrl = ogImage || (
+  slug === "index" 
+    ? `${siteUrl}/og-index.png` 
+    : `${siteUrl}/og/${slug}.png`
+);
 ---
 
 <!DOCTYPE html>
