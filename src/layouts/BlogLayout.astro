@@ -31,9 +31,8 @@ const currentFileName = activeCategory === "all" ? "index.md" : `${activeCategor
 const canonicalURL = new URL(Astro.url.pathname, Astro.site || "https://ewanjohndennis.vercel.app");
 
 const siteUrl = "https://blogs-ewanjohndennis.vercel.app";
-const generatedOgUrl = ogImage 
-  ? `${siteUrl}${ogImage}` 
-  : `${siteUrl}/og/index.png`;
+const generatedOgUrl = ogImage || 
+  `${siteUrl}/og/image?title=${encodeURIComponent(title)}&type=${encodeURIComponent(type)}`;
 ---
 
 <!DOCTYPE html>
