@@ -264,7 +264,7 @@ html[data-theme="light"] .prose pre code {
   background-color: var(--card);
   color: var(--muted-2);
   font-family: var(--font-mono);
-  font-size: 20px;
+  font-size: 35px;
   cursor: pointer;
   line-height: 1;
   padding-bottom: 1px;
@@ -281,7 +281,9 @@ html[data-theme="light"] .prose pre code {
     font-size: 30px;
     bottom: 32px;
     right: 1rem;
-  }
+    line-height: 1;
+    padding-bottom: 4px;
+  } 
 }
 
 #theme-toggle:hover {
