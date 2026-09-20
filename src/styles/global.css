@@ -226,3 +226,53 @@ html, body {
   .prose h2 { font-size: 1.15rem; }
   .prose { font-size: 0.95rem; line-height: 1.65; }
 }
+/* Light mode token overrides */
+html[data-theme="light"] {
+  --ink: #0c0c0c;
+  --panel: #f0eee8;
+  --line: #d4d0c8;
+  --line-strong: #b8b4ac;
+  --muted-1: #888888;
+  --muted-2: #555555;
+  --code-gutter: #e0ddd6;
+  --code-body: #888888;
+  --background: #ffffff;
+  --foreground: #0c0c0c;
+  --card: #f5f3ee;
+  --border: #d4d0c8;
+  --input: #e0ddd6;
+}
+
+html[data-theme="light"] .prose {
+  color: #2a2a2a;
+}
+
+html[data-theme="light"] .prose pre code {
+  color: var(--foreground);
+}
+
+/* Theme toggle button */
+#theme-toggle {
+  position: fixed;
+  bottom: 40px; /* sits just above the statusbar */
+  right: 1.25rem;
+  z-index: 100;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background-color: var(--card);
+  color: var(--muted-2);
+  font-family: var(--font-mono);
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+#theme-toggle:hover {
+  border-color: var(--line-strong);
+  color: var(--foreground);
+}
