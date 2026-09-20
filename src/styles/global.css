@@ -272,6 +272,16 @@ html[data-theme="light"] .prose pre code {
   transition: border-color 0.15s ease, color 0.15s ease;
 }
 
+@media (max-width: 768px) {
+  #theme-toggle {
+    width: 44px;
+    height: 44px;
+    font-size: 16px;
+    bottom: 32px;
+    right: 1rem;
+  }
+}
+
 #theme-toggle:hover {
   border-color: var(--line-strong);
   color: var(--foreground);
